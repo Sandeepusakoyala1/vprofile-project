@@ -14,7 +14,6 @@ FROM tomcat:9-jre11
 RUN rm -rf /usr/local/tomcat/webapps/*
 # Copy the artifact from the build image and place it in the tomcat dir
 COPY --from=Build_Image vprofile-project/target/vprofile-v2.war /usr/local/tomcat/webapps/ROOT.war
-
 EXPOSE 8080
 # run the tomcat server by default here 
 CMD [ "catalina.sh", "run" ]

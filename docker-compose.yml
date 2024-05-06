@@ -2,46 +2,53 @@ version: '3.8'
 services:
   vprodb:
     build:
-     context: ./Docker-files/db
-    image: sandeepusakoyalaa/vprodb
+      context: ./Docker-files/db
+    image: sandeepusakoyalaa/vprodbdockerimg
     container_name: vprodb
     ports:
-    - "3306:3306"
+      - "3306:3306"
     volumes:
-    - vprodbdata:/var/lib/mysql
+      - vprodbdata:/var/lib/mysql 
     environment:
-    - MYSQL_ROOT_PASSOWRD=vprodbpass
+      - MYSQL_ROOT_PASSWORD=vprodbpass
+  redis:
+      image: "redis-alpine"
 
   vprocache01:
-   image: memcached
-   ports:
-    - "11211:11211"
+    image: memcached
+    ports:
+      - "11211:11211"
   vpromq01:
-   image: rabbitmq
-   ports:
-    - "15672:15672"
-   environment:
-    - RABBITMQ_DEFAULT_USER=guest
-    - RABBITMQ_DEFAULT_PASS=guest
+    image: rabbitmq
+    ports:
+      - "15672:15672"
+    environment:
+      - RABBIT_DEFAULT_USER=guest
+      - RABBIT_DEFAULT_PASS=guest
 
   vproapp:
-   build:
-    context: ./Docker-files/app
-   image: sandeepusakoyalaa/vproapp
-   container_name: vproapp
-   ports:
-   - "8080:8080"
-   volumes:
-   - vproappdata:/usr/local/tomcat/webapps
-
+    build:
+      context: ./Docker-files/app
+    image: sandeepusakoyalaa/vproappdockerimg
+    container_name: vproapp
+    ports:
+      - "8080:8080"
+    volumes:
+      - vproappdata:/usr/local/tomcat/webapps 
+    
   vproweb:
-   build:
-    context: ./Docker-files/web
-   image:  sandeepusakoyalaa/vproweb
-   container_name: vproweb
-   ports:
-   - "80:80"
-   
+    build:
+      context: ./Docker-files/web
+    image: sandeepusakoyalaa/vprowebdockerimg
+    container_name: vproweb
+    ports:
+      - "80:80"
+    
+
 volumes:
-  vprodbdata: {}
-  vproappdata: {}
+    vproappdata: {}
+    vprodbdata: {}
+
+
+
+ 
